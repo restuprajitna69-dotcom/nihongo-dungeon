@@ -1,30 +1,46 @@
-:root{--bg:#071028;--card:#0b1220;--accent:#7dd3fc;--good:#10b981;--bad:#ef4444;--muted:#9ca3af}
-html,body{height:100%}
-body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; min-height:100vh; background:linear-gradient(180deg,#071028 0%, #0c1a2b 100%); color:#e6eef8; -webkit-font-smoothing:antialiased}
-.wrap{max-width:980px;margin:18px auto;padding:18px}
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border-radius:12px;padding:16px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
-h1{margin:0;font-size:20px}
-.small{font-size:13px;color:var(--muted)}
-.hidden{display:none}
-.form-row{display:flex;gap:8px;align-items:center;margin:8px 0}
-input[type=text],input[type=password]{background:#071b2b;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:8px;color:#e6eef8;flex:1}
-button{background:var(--accent);border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700}
-.dungeons{display:flex;gap:12px;margin-top:12px}
-.dungeon{flex:1;border-radius:10px;padding:14px;background:rgba(255,255,255,0.02);cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
-.dungeon .title{font-weight:800}
-.tiles{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
-.tile{background:#082433;padding:10px 12px;border-radius:8px;cursor:pointer;border:1px solid rgba(255,255,255,0.03);user-select:none}
-.tile.selected{opacity:0.6}
-.tile.correct-animation{animation:correct 700ms; border-color:var(--good); box-shadow:0 6px 18px rgba(16,185,129,0.12)}
-.tile.wrong-animation{animation:wrong 600ms; border-color:var(--bad)}
-@keyframes correct{0%{transform:translateY(0)}50%{transform:translateY(-8px) scale(1.03)}100%{transform:translateY(0)}}
-@keyframes wrong{0%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(8px)}100%{transform:translateX(0)}}
-.assembled{min-height:48px;background:rgba(255,255,255,0.02);border-radius:8px;padding:10px;margin-top:10px;border:1px dashed rgba(255,255,255,0.03)}
-.controls{display:flex;gap:8px;margin-top:8px}
-.spicy{color:#ffd166;font-weight:700}
-table{width:100%;border-collapse:collapse;margin-top:12px}
-td,th{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
-.muted{color:var(--muted)}
-footer{margin-top:18px;color:var(--muted);font-size:12px;text-align:center}
-.admin-grid{display:grid;grid-template-columns:1fr 360px;gap:12px}
-.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03)}
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1f2933, #111827);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-box {
+  background: #1f2937;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #22c55e;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #16a34a;
+}
+
+#message {
+  margin-top: 10px;
+  font-size: 14px;
+}
