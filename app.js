@@ -1,11 +1,46 @@
 // ===== Data & Banks =====
-const USERS = {
-  students: ["Abdul","Anjas","Arya","Daiva","Darda","Desti","Faiz","Farhan","Hilpan","Ira","Khoirul","Rainaldy","Rizky","Ansori","Haidar","Noval","Nayif","Nelda","Putri","Rexsya","Reyhan","Mery","Yani"],
-  studentPassword: 'FUFUFAFAC1',
-  admin: 'TORA',
-  adminPassword: 'FUFUFAFATORA',
-  demo: {name:'KELINCI PERCOBAAN', pass:'FUFUFAFAKELINCI'}
-};
+const USERS = [
+  "Abdul","Anjas","Arya","Daiva","Darda","Desti","Faiz","Farhan",
+  "Hilpan","Ira","Khoirul","Rainaldy","Rizky","Ansori","Haidar",
+  "Noval","Nayif","Nelda","Putri","Rexsya","Reyhan","Mery","Yani"
+];
+
+const PASSWORD_MURID = "FUFUFAFAC1";
+const PASSWORD_ADMIN = "FUFUFAFATORA";
+const PASSWORD_TRIAL = "FUFUFAFAKELINCI";
+
+function login(username, password) {
+  username = username.trim(); // penting!
+  password = password.trim();
+
+  if (username === "TORA" && password === PASSWORD_ADMIN) {
+    return { role: "admin", name: "TORA" };
+  }
+
+  if (username === "KELINCI PERCOBAAN" && password === PASSWORD_TRIAL) {
+    return { role: "trial", name: username };
+  }
+
+  if (USERS.includes(username) && password === PASSWORD_MURID) {
+    return { role: "student", name: username };
+  }
+
+  return null;
+}
+document.getElementById("loginBtn").addEventListener("click", () => {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  const result = login(username, password);
+
+  if (!result) {
+    alert("❌ Username atau password salah");
+    return;
+  }
+
+  alert(`✅ Login berhasil sebagai ${result.role}: ${result.name}`);
+});
+
 
 function makeQ(id, tiles, answer, explanation='') { return {id, tiles, answer, explanation}; }
 
