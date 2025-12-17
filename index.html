@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TORA先生のクラス — Nihongo Dungeon (Demo)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <div id="screen-login" class="card">
+      <h1>TORA先生のクラス — Nihongo Dungeon</h1>
+      <p class="small">Tagline: Persiapan JFT dalam Petualangan RPG — Level up sambil belajar!</p>
+      <div style="margin-top:12px">
+        <div class="form-row">
+          <input id="inp-user" type="text" placeholder="Nama (contoh: Abdul atau TORA)" />
+          <input id="inp-pass" type="password" placeholder="Password" />
+          <button id="btn-login">Login</button>
+        </div>
+        <div class="small">Akun murid (23): Abdul, Anjas, Arya, Daiva, Darda, Desti, Faiz, Farhan, Hilpan, Ira, Khoirul, Rainaldy, Rizky, Ansori, Haidar, Noval, Nayif, Nelda, Putri, Rexsya, Reyhan, Mery, Yani — Password murid: <code>FUFUFAFAC1</code></div>
+        <div class="small">Guru/Admin: <strong>TORA</strong> / <code>FUFUFAFATORA</code> • Akun percobaan: <code>KELINCI PERCOBAAN / FUFUFAFAKELINCI</code></div>
+      </div>
+    </div>
+
+    <div id="screen-lobby" class="card hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div id="welcome" style="font-weight:800"></div>
+          <div class="small">Pilih dungeon untuk memulai quest — susun kata jadi kalimat yang benar!</div>
+        </div>
+        <div>
+          <button id="btn-logout">Logout</button>
+        </div>
+      </div>
+      <div class="dungeons">
+        <div class="dungeon" data-level="easy">
+          <div class="title">🟢 スライム洞窟 (Easy)</div>
+          <div class="small">5 soal • Timer: 5 menit</div>
+          <div class="small">Cocok untuk pemula</div>
+        </div>
+        <div class="dungeon" data-level="normal">
+          <div class="title">🟡 炎の迷宮 (Normal)</div>
+          <div class="small">10 soal • Timer: 10 menit</div>
+          <div class="small">Labirin berapi — fokus ya</div>
+        </div>
+        <div class="dungeon" data-level="hard">
+          <div class="title">🔴 竜王の城 (Hard)</div>
+          <div class="small">15 soal • Timer: 15 menit</div>
+          <div class="small">Teka-teki rumit — tantangan sejati</div>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <h3 class="small">Quick Links</h3>
+        <div class="small">Klik dungeon untuk mulai. Jika waktu habis, hasil otomatis tersimpan.</div>
+      </div>
+    </div>
+
+    <div id="screen-quiz" class="card hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div id="quest-title" style="font-weight:800"></div>
+          <div class="small">Soal <span id="q-index"></span> / <span id="q-total"></span></div>
+        </div>
+        <div>
+          <div class="timer">⏱ <span id="timer-display">00:00</span></div>
+        </div>
+      </div>
+
+      <div id="monster-area" style="margin-top:12px">
+        <div id="monster" class="card" style="background:rgba(255,255,255,0.01)">
+          <div id="monster-name">Monster</div>
+          <div id="monster-hp">HP: <span id="monster-hp-val">3</span></div>
+        </div>
+      </div>
+
+      <div class="tiles" id="tiles-host"></div>
+      <div class="assembled" id="assembled-host" aria-label="assembled"></div>
+      <div class="controls">
+        <button id="btn-submit">Attack (Submit)</button>
+        <button id="btn-clear">Clear</button>
+        <button id="btn-back">Back</button>
+      </div>
+    </div>
+
+    <div id="screen-result" class="card hidden">
+      <h2>Treasure Chest ✨ — Hasil Quiz</h2>
+      <div id="result-summary"></div>
+      <div id="feedback-area"></div>
+      <h3 class="small">Detail per soal</h3>
+      <div id="result-table"></div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="btn-back-lobby">Kembali ke Lobby</button>
+        <button id="btn-view-ranking">Lihat Ranking</button>
+      </div>
+    </div>
+
+    <div id="screen-ranking" class="card hidden">
+      <h2>Papan Ranking</h2>
+      <div id="ranking-host"></div>
+      <div style="margin-top:12px"><button id="btn-back-lobby2">Kembali ke Lobby</button></div>
+    </div>
+
+    <div id="screen-admin" class="card hidden">
+      <h2>Admin: TORA先生 Dashboard</h2>
+      <div class="admin-grid">
+        <div>
+          <h3>Semua Hasil</h3>
+          <div id="admin-results" style="max-height:420px;overflow:auto"></div>
+        </div>
+        <div>
+          <h3>Soal & Kunci</h3>
+          <div id="admin-questions" style="max-height:420px;overflow:auto"></div>
+        </div>
+      </div>
+      <div style="margin-top:12px"><button id="btn-back-lobby3">Kembali ke Lobby</button></div>
+    </div>
+
+    <footer class="small">Built with ❤️ — Nihongo Dungeon Demo</footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
