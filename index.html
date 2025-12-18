@@ -1,23 +1,177 @@
-<!DOCTYPE html>
-<html lang="id">
+<!doctype html>
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>Nihongo Dungeon – SAFE MODE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TORA先生のクラス — Nihongo Dungeon: JP9-C1 Quest</title>
+  <link rel="stylesheet" href="style.jss" />
+  <meta name="description" content="Nihongo Dungeon JP9-C1 — Persiapan JFT dalam Petualangan RPG" />
 </head>
 <body>
+  <div id="app">
+    <!-- Splash / Login -->
+    <section id="splash" class="screen active">
+      <div class="splash-wrap">
+        <div class="door" id="door">
+          <div class="door-light"></div>
+        </div>
+        <h1 class="title">TORA先生のクラス</h1>
+        <h2 class="subtitle">Nihongo Dungeon: JP9-C1 Quest</h2>
+        <p class="tagline">Persiapan JFT dalam Petualangan RPG — Level up sambil belajar! 🎮</p>
 
-  <div class="login-box">
-    <h1>🏯 Nihongo Dungeon</h1>
-    <p>SAFE MODE Login</p>
+        <div class="login-card">
+          <h3>Login Adventurer</h3>
+          <input id="username" placeholder="Nama (contoh: Abdul / TORA / KELINCI PERCOBAAN)" />
+          <input id="password" type="password" placeholder="Password" />
+          <div class="login-actions">
+            <button id="loginBtn" class="btn primary">Masuk</button>
+            <button id="guestBtn" class="btn ghost">Masuk sebagai Percobaan</button>
+          </div>
+          <p class="hint">Murid: 23 akun (Abdul, Anjas, Arya, ...). Password murid: <strong>FUFUFAFAC1</strong></p>
+          <p class="hint">Guru/Admin: <strong>TORA</strong> / Password: <strong>FUFUFAFATORA</strong></p>
+        </div>
 
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
+        <footer class="splash-footer">Mobile-first • Touch friendly • Siap dipakai di handphone</footer>
+      </div>
+    </section>
 
-    <button id="loginBtn">LOGIN</button>
+    <!-- Lobby / Choose Dungeon -->
+    <section id="lobby" class="screen">
+      <div class="lobby-wrap">
+        <div class="player-info">
+          <div class="avatar" id="avatar"></div>
+          <div>
+            <div id="playerName" class="player-name"></div>
+            <div id="playerRank" class="player-rank">Novice Explorer</div>
+          </div>
+        </div>
 
-    <p id="message"></p>
+        <div class="quest-board">
+          <h3>Pilih Dungeon</h3>
+          <div class="dungeons">
+            <div class="dungeon card" data-level="easy">
+              <div class="dungeon-icon slime"></div>
+              <h4>スライム洞窟</h4>
+              <p>かんたん — 10 soal • 5 menit</p>
+              <button class="btn select-level">Masuk</button>
+            </div>
+
+            <div class="dungeon card" data-level="normal">
+              <div class="dungeon-icon flame"></div>
+              <h4>炎の迷宮</h4>
+              <p>ふつう — 15 soal • 10 menit</p>
+              <button class="btn select-level">Masuk</button>
+            </div>
+
+            <div class="dungeon card" data-level="hard">
+              <div class="dungeon-icon dragon"></div>
+              <h4>竜王の城</h4>
+              <p>むずかしい — 20 soal • 15 menit</p>
+              <button class="btn select-level">Masuk</button>
+            </div>
+          </div>
+
+          <div class="lobby-actions">
+            <button id="viewRanking" class="btn">Lihat Ranking</button>
+            <button id="logoutBtn" class="btn ghost">Logout</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Screen -->
+    <section id="quiz" class="screen">
+      <div class="quiz-wrap">
+        <div class="quiz-header">
+          <div class="level-badge" id="levelBadge"></div>
+          <div class="timer-wrap">
+            <div id="timerText">00:00</div>
+            <div class="timer-bar">
+              <div id="timerBarFill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="battle-area">
+          <div id="monster" class="monster"></div>
+          <div class="question-card">
+            <h4 id="qTitle">Q1</h4>
+            <p id="qDesc" class="q-desc">Susun kalimat dari kata-kata berikut</p>
+
+            <div id="wordBank" class="word-bank" aria-live="polite"></div>
+
+            <div class="answer-area">
+              <div id="answerSlots" class="answer-slots" aria-label="Jawaban"></div>
+            </div>
+
+            <div class="quiz-actions">
+              <button id="submitAnswer" class="btn primary">Serang (Submit)</button>
+              <button id="clearAnswer" class="btn ghost">Bersihkan</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-info">
+          <div id="progressText">Soal 1 / 10</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Result Screen -->
+    <section id="result" class="screen">
+      <div class="result-wrap">
+        <div id="treasure" class="treasure"></div>
+        <h2 id="resultScore">Skor: 0 / 0</h2>
+        <p id="resultComment" class="comment"></p>
+
+        <div id="detailList" class="detail-list"></div>
+
+        <div class="result-actions">
+          <button id="backLobby" class="btn">Kembali ke Lobby</button>
+          <button id="viewRanking2" class="btn">Lihat Ranking</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ranking / Admin Dashboard -->
+    <section id="ranking" class="screen">
+      <div class="ranking-wrap">
+        <h3>Papan Ranking</h3>
+        <div class="ranking-controls">
+          <select id="rankingLevel">
+            <option value="easy">かんたん (Easy)</option>
+            <option value="normal">ふつう (Normal)</option>
+            <option value="hard">むずかしい (Hard)</option>
+          </select>
+          <input id="searchStudent" placeholder="Cari murid..." />
+          <button id="exportBtn" class="btn ghost">Refresh</button>
+        </div>
+
+        <div id="rankingBoard" class="ranking-board"></div>
+
+        <div class="ranking-actions">
+          <button id="backLobby2" class="btn">Kembali</button>
+          <button id="adminPanelBtn" class="btn ghost">Admin Panel</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal hidden">
+      <div class="modal-card">
+        <h4>Admin Dashboard — TORA先生</h4>
+        <div id="adminContent">
+          <p><strong>Fitur:</strong> lihat soal, kunci jawaban, penjelasan, progress murid.</p>
+          <div id="adminTables"></div>
+        </div>
+        <div class="modal-actions">
+          <button id="closeAdmin" class="btn">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden"></div>
   </div>
 
   <script src="app.js"></script>
