@@ -1,64 +1,71 @@
-// =======================
-// NIHONGO DUNGEON SAFE MODE
-// =======================
+/* app.js
+   Nihongo Dungeon: JP9-C1 (Updated per spec)
+   - Mobile-first interactive quiz with RPG flavor
+   - Uses localStorage for persistence (ready to upload to GitHub)
+   - No external libs; touch-friendly; robust error handling & retry
+*/
 
-// DAFTAR MURID
-const STUDENTS = [
-  "Abdul","Anjas","Arya","Daiva","Darda","Desti","Faiz","Farhan",
-  "Hilpan","Ira","Khoirul","Rainaldy","Rizky","Ansori","Haidar",
-  "Noval","Nayif","Nelda","Putri","Rexsya","Reyhan","Mery","Yani"
-];
+/* ---------- Data: users, questions, config ---------- */
 
-// PASSWORD
-const PASSWORDS = {
-  student: "FUFUFAFAC1",
-  admin: "FUFUFAFATORA",
-  trial: "FUFUFAFAKELINCI"
+const USERS = {
+  students: [
+    "Abdul","Anjas","Arya","Daiva","Darda","Desti","Faiz","Farhan","Hilpan","Ira","Khoirul","Rainaldy","Rizky","Ansori","Haidar","Noval","Nayif","Nelda","Putri","Rexsya","Reyhan","Mery","Yani"
+  ],
+  studentPassword: "FUFUFAFAC1",
+  admin: { name: "TORA", password: "FUFUFAFATORA" },
+  trial: { name: "KELINCI PERCOBAAN", password: "FUFUFAFAKELINCI" }
 };
 
-// ELEMENT
-const loginBtn = document.getElementById("loginBtn");
-const msg = document.getElementById("message");
-
-loginBtn.addEventListener("click", () => {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  console.log("Login attempt:", username);
-
-  const user = safeLogin(username, password);
-
-  if (!user) {
-    msg.textContent = "❌ Username atau password salah";
-    msg.style.color = "red";
-    return;
-  }
-
-  msg.textContent = `✅ Login berhasil sebagai ${user.role}: ${user.name}`;
-  msg.style.color = "lightgreen";
-
-  localStorage.setItem("nihongoUser", JSON.stringify(user));
-});
-
-// LOGIN FUNCTION (ANTI ERROR)
-function safeLogin(username, password) {
-
-  // ADMIN
-  if (username === "TORA" && password === PASSWORDS.admin) {
-    return { role: "Admin", name: "TORA" };
-  }
-
-  // TRIAL
-  if (username === "KELINCI PERCOBAAN" && password === PASSWORDS.trial) {
-    return { role: "Trial", name: username };
-  }
-
-  // STUDENT
-  if (STUDENTS.includes(username) && password === PASSWORDS.student) {
-    return { role: "Student", name: username };
-  }
-
-  return null;
-}
-
-console.log("SAFE MODE loaded");
+/* Questions per spec (Easy 10, Normal 15, Hard 20) */
+const QUIZ_PACK = {
+  easy: {
+    id: "easy", title: "スライム洞窟", time: 5*60, count:10,
+    questions: [
+      { id:"E1", text:"のどがいたいんです", words:["ん","です","が","のど","いたい"] },
+      { id:"E2", text:"ねつがあるんです", words:["ある","です","が","ねつ","ん"] },
+      { id:"E3", text:"ひとにあわないでください", words:["ない","ひと","で","に","あわ","ください"] },
+      { id:"E4", text:"くるまをうんてんしないでください", words:["で","うんてんし","ない","ください","を","くるま"] },
+      { id:"E5", text:"これはせきをおさえるくすりです", words:["せき","を","これは","です","おさえる","くすり"] },
+      { id:"E6", text:"こちらはいをまもるくすりです", words:["です","まもる","を","こちら","は","い","くすり"] },
+      { id:"E7", text:"ねるまえにくすりをのんでください", words:["で","ください","まえ","を","ねる","に","のん","くすり"] },
+      { id:"E8", text:"くすりをのんだあとねむくなります", words:["くすり","のんだ","を","あと","ねむくなります"] },
+      { id:"E9", text:"あたまがいたいときくすりをのみます", words:["とき","のみます","が","くすり","あたま","いたい","を"] },
+      { id:"E10", text:"ねつがあるときやすみます", words:["とき","ます","が","ねつ","ある","やすみ"] }
+    ]
+  },
+  normal: {
+    id:"normal", title:"炎の迷宮", time: 10*60, count:15,
+    questions:[
+      { id:"N1", text:"熱があるんです", words:["ん","熱","です","が","ある"] },
+      { id:"N2", text:"足がねんざしたんです", words:["足","ん","です","が","ねんざ","した"] },
+      { id:"N3", text:"お酒を飲まないでください", words:["で","飲ま","ない","お酒","ください","を"] },
+      { id:"N4", text:"飲んだあと車を運転しないでください", words:["車","で","を","運転し","ない","だ","飲ん","あと","ください"] },
+      { id:"N5", text:"こちらはせきを抑える薬です", words:["せき","薬","を","です","抑える","は","こちら"] },
+      { id:"N6", text:"寝る前に薬を飲んでください", words:["薬","前","を","ください","飲ん","に","で","寝る"] },
+      { id:"N7", text:"薬を飲んだあと眠くなった", words:["眠く","薬","あと","を","なった","飲ん","だ"] },
+      { id:"N8", text:"頭が痛いとき薬を飲んでください", words:["とき","薬","を","痛い","飲ん","が","頭","ください","で"] },
+      { id:"N9", text:"がまんできないとき何もしないでくれる？", words:["がまん","とき","できない","何も","くれる？","しないで"] },
+      { id:"N10", text:"人に会わないでください", words:["会わ","ない","で","ください","人","に"] },
+      { id:"N11", text:"これは熱を下げる薬だよ", words:["熱","を","下げる","薬","だ","これ","よ","は"] },
+      { id:"N12", text:"これはからだを守る薬ですね", words:["からだ","ね","守る","薬","は","これ","です","を"] },
+      { id:"N13", text:"食事の前に薬を飲んだほうがいいです", words:["食事","に","を","だ","飲ん","前","薬","の","ほうがいいです"] },
+      { id:"N14", text:"薬を飲んだあと運転しないでくれる", words:["運転","ない","で","くれる","だ","あと","飲ん","薬","を","し"] },
+      { id:"N15", text:"熱があるとき休んでもいいでしょうか", words:["熱","でしょうか","が","休んで","ある","もいい","とき"] }
+    ]
+  },
+  hard: {
+    id:"hard", title:"竜王の城", time: 15*60, count:20,
+    questions:[
+      { id:"H1", text:"昨日から熱があるんだよ", words:["熱","よ","ある","ん","から","昨日","だ","が"] },
+      { id:"H2", text:"先週事故で頭がぶつかったんです", words:["頭","が","事故","ん","で","先週","です","ぶつかった"] },
+      { id:"H3", text:"ビールを飲んだあと車を運転しないでくださいね", words:["車","を","運転し","ない","ね","ください","ビール","を","飲ん","あと","だ","で"] },
+      { id:"H4", text:"あれは熱を抑える薬なんです", words:["熱","何ん","抑える","薬","です","あれ","は","を"] },
+      { id:"H5", text:"食事の前に水を飲んでくださいね", words:["食事","の","水","に","前","を","飲ん","ね","ください","で"] },
+      { id:"H6", text:"薬を飲んだあと眠くなるとき注意してください", words:["薬","だ","飲ん","あと","を","眠く","とき","なる","して","ください","注意"] },
+      { id:"H7", text:"熱があるとき休みます人に会わないでください", words:["熱","人","ください","とき","ない","ます","が","に","会わ","休み","で","ある","ます"] },
+      { id:"H8", text:"昨日からせきが止まらなかったら薬を飲まなきゃ", words:["昨日","止まら","せき","飲ま","から","ん","なかったら","なきゃ","薬","を","が"] },
+      { id:"H9", text:"頭が痛いとき薬を飲みます飲んだあと眠くなるよ", words:["頭","ます","眠くなる","だ","あと","を","飲み","が","飲ん","とき","薬","痛い","よ"] },
+      { id:"H10", text:"これは熱を下げる薬です食事の前に飲みます", words:["熱","を","です","食事","下げる","これ","は","飲み","前","に","薬","の","ます"] },
+      { id:"H11", text:"熱があるから今日学校に行けないんです", words:["今日","は","学校","に","行けない","ん","です","熱","が","ある","から"] },
+      { id:"H12", text:"薬を飲んだあと車を運転しないでください", words:["薬","を","飲ん","あと","だ","車","運転","を","しない","で","ください"] },
+      { id:"H13", text:"こちらは胃を守る薬です食事の前に飲む", words:["胃","を","守る","薬","です","こちら","は","食事","に","前","の","飲む"] },
