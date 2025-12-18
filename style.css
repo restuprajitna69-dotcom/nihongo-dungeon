@@ -1,46 +1,183 @@
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #1f2933, #111827);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+/* style.jss - responsive, mobile-first, animated RPG feel with storyboard animations */
+
+:root{
+  --bg:#071022;
+  --card:#0f1724;
+  --accent:#ffb86b;
+  --accent-2:#ff6b6b;
+  --muted:#9aa4b2;
+  --glass: rgba(255,255,255,0.04);
+  --success:#7ee787;
+  --danger:#ff7b7b;
+  --gold:#ffd166;
+  --shadow: 0 8px 24px rgba(2,6,23,0.6);
+  --glass-border: rgba(255,255,255,0.04);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-.login-box {
-  background: #1f2937;
-  padding: 30px;
-  border-radius: 10px;
-  width: 300px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+/* base */
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+body{
+  margin:0;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(255,182,108,0.06), transparent),
+              linear-gradient(180deg, #071028 0%, #071022 100%);
+  color:#e6eef8;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow:hidden;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 5px;
-  border: none;
+/* screens */
+.screen{display:none;height:100vh;padding:18px;overflow:auto}
+.screen.active{display:block}
+
+/* Splash / door */
+.splash-wrap{max-width:920px;margin:0 auto;padding-top:28px;text-align:center}
+.door{
+  width:220px;height:220px;margin:0 auto;border-radius:18px;
+  background:linear-gradient(180deg,#2b2f4a,#0f1220);
+  box-shadow: var(--shadow);
+  position:relative; overflow:hidden;
+  border:4px solid rgba(255,255,255,0.03);
+  transform-origin:center;
+  transition:transform .9s cubic-bezier(.2,.9,.3,1);
+}
+.door.open{
+  transform:scale(1.02) translateY(-18px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+}
+.door-light{
+  position:absolute;left:0;right:0;bottom:-40px;height:120px;
+  background: radial-gradient(60% 40% at 50% 0%, rgba(255,210,120,0.18), transparent);
+  transform:translateY(0); transition:transform .9s ease, opacity .6s;
+  opacity:0;
+}
+.door.open .door-light{ transform:translateY(-40px); opacity:1; }
+
+/* login card */
+.login-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;max-width:420px;margin:12px auto;box-shadow:var(--shadow);border:1px solid var(--glass-border)}
+.login-card input{width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit;margin:8px 0}
+.login-actions{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.btn{padding:10px 14px;border-radius:10px;border:0;background:transparent;color:inherit;cursor:pointer;font-weight:600}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#ff8a5b);color:#08101a;box-shadow:0 6px 18px rgba(255,138,91,0.12)}
+.btn.ghost{border:1px solid rgba(255,255,255,0.04);opacity:0.95}
+.hint{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* Lobby */
+.lobby-wrap{display:flex;flex-direction:column;gap:12px;max-width:920px;margin:0 auto}
+.player-info{display:flex;gap:12px;align-items:center}
+.avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#6be7ff,#7b61ff);box-shadow:0 8px 20px rgba(123,97,255,0.12);transition:transform .4s}
+.player-name{font-weight:700}
+.player-rank{font-size:13px;color:var(--muted)}
+
+.quest-board{background:var(--card);padding:12px;border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow)}
+.dungeons{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.dungeon.card{flex:1 1 30%;min-width:180px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);text-align:center;border:1px solid rgba(255,255,255,0.03);transition:transform .25s}
+.dungeon.card:active,.dungeon.card:focus{transform:translateY(-6px)}
+.dungeon-icon{height:72px;margin-bottom:8px;border-radius:10px;position:relative;overflow:hidden}
+.dungeon-icon.slime{background:linear-gradient(135deg,#b6ffea,#9ef0ff)}
+.dungeon-icon.flame{background:linear-gradient(135deg,#ffb86b,#ff6b6b)}
+.dungeon-icon.dragon{background:linear-gradient(135deg,#ffd166,#ffd166)}
+
+/* door small animation */
+.door-anim{transition:transform .6s ease}
+.door-anim.open-door{transform:scale(1.06) translateY(-6px)}
+
+/* Quiz */
+.quiz-wrap{max-width:920px;margin:0 auto;padding-bottom:40px}
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.level-badge{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,#2bffb0,#7ee787);color:#052014;font-weight:700}
+.timer-wrap{width:60%;max-width:320px}
+#timerText{font-weight:700;text-align:right;font-size:14px;color:var(--muted)}
+.timer-bar{height:10px;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden;margin-top:6px}
+#timerBarFill{height:100%;width:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform-origin:left;transition:width 0.3s linear}
+
+/* battle area */
+.battle-area{display:flex;gap:12px;align-items:flex-start}
+.monster{width:120px;height:120px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-weight:800;position:relative;overflow:visible}
+.monster .hp{position:absolute;left:8px;right:8px;top:-12px;height:8px;background:rgba(255,255,255,0.06);border-radius:8px;overflow:hidden}
+.monster .hp .fill{height:100%;background:linear-gradient(90deg,#7ee787,#2bffb0);width:100%;transition:width .4s ease}
+
+/* question card */
+.question-card{flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.q-desc{color:var(--muted);margin-top:0}
+.word-bank{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.word{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.03);cursor:pointer;border:1px solid rgba(255,255,255,0.02);user-select:none;font-weight:600;transition:transform .12s}
+.word:active{transform:scale(.98)}
+.answer-slots{min-height:48px;border-radius:10px;padding:8px;background:rgba(255,255,255,0.02);display:flex;gap:8px;flex-wrap:wrap}
+.answer-slot{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.02);transition:transform .25s, box-shadow .25s}
+
+/* correct animation */
+.correct-animation{
+  animation: correctGlow .9s ease forwards;
+  box-shadow: 0 8px 30px rgba(126,231,135,0.18);
+  border:1px solid rgba(126,231,135,0.18);
+}
+@keyframes correctGlow{
+  0%{transform:rotate(0) scale(1); background:linear-gradient(90deg, rgba(126,231,135,0.06), rgba(255,255,255,0.02))}
+  40%{transform:rotate(8deg) scale(1.06)}
+  100%{transform:rotate(0) scale(1); opacity:1}
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background: #22c55e;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
+/* wrong animation */
+.wrong-animation{
+  animation: wrongShake .6s ease;
+  border:1px solid rgba(255,123,123,0.18);
+  background:linear-gradient(90deg, rgba(255,123,123,0.03), rgba(255,255,255,0.01));
+}
+@keyframes wrongShake{
+  0%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+  100%{transform:translateX(0)}
 }
 
-button:hover {
-  background: #16a34a;
-}
+/* coin / item drop */
+.item-drop{position:absolute;left:50%;transform:translateX(-50%);top:-40px;animation:dropItem .9s cubic-bezier(.2,.9,.3,1);pointer-events:none}
+@keyframes dropItem{0%{opacity:0;transform:translate(-50%,-20px) scale(.6)}50%{opacity:1;transform:translate(-50%,6px) scale(1.06)}100%{transform:translate(-50%,40px) scale(.9);opacity:0}}
 
-#message {
-  margin-top: 10px;
-  font-size: 14px;
+/* character animations (avatar) */
+.avatar.jump{animation:avatarJump .7s ease}
+@keyframes avatarJump{0%{transform:translateY(0)}40%{transform:translateY(-14px) scale(1.04)}100%{transform:translateY(0)}}
+.avatar.shock{animation:avatarShock .6s ease}
+@keyframes avatarShock{0%{transform:translateY(0) rotate(0)}30%{transform:translateY(-6px) rotate(-6deg)}60%{transform:translateY(0) rotate(6deg)}100%{transform:translateY(0) rotate(0)}}
+
+/* monster taunt */
+.monster.taunt{animation:monsterTaunt .6s ease}
+@keyframes monsterTaunt{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+
+/* HP puff effect */
+.hp-puff{position:absolute;right:-6px;top:40%;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.06);animation:hpPuff .6s ease}
+@keyframes hpPuff{0%{transform:scale(0);opacity:1}100%{transform:scale(1.6);opacity:0}}
+
+/* treasure chest */
+.treasure{width:120px;height:120px;margin:0 auto;border-radius:12px;background:linear-gradient(180deg,#ffd166,#ffb86b);box-shadow:var(--shadow);position:relative;overflow:visible;transition:transform .35s}
+.treasure.open{transform:scale(1.04)}
+.treasure.wood{background:linear-gradient(180deg,#caa26a,#8b5a2b)}
+.treasure.iron{background:linear-gradient(180deg,#b04a2a,#6b2a1a)}
+.treasure.gold{background:linear-gradient(180deg,#ffd166,#ffb86b)}
+
+/* ranking board */
+.ranking-wrap{max-width:920px;margin:0 auto;padding-bottom:40px}
+.ranking-board{margin-top:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.rank-row{display:flex;justify-content:space-between;padding:8px;border-bottom:1px dashed rgba(255,255,255,0.02);cursor:pointer;transition:transform .18s}
+.rank-row:hover{transform:translateX(6px)}
+.badge{padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);font-weight:700}
+
+/* modal & toast */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.8));z-index:60}
+.modal.hidden{display:none}
+.modal-card{background:var(--card);padding:12px;border-radius:12px;width:92%;max-width:720px;border:1px solid rgba(255,255,255,0.03)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;padding:10px 14px;border-radius:10px;background:#111827;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,0.6)}
+.toast.hidden{display:none}
+
+/* small screens */
+@media (max-width:720px){
+  .dungeons{flex-direction:column}
+  .battle-area{flex-direction:column}
+  .monster{width:100%;height:120px}
+  .timer-wrap{width:100%}
 }
